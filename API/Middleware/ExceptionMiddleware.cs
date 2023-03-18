@@ -25,7 +25,6 @@ namespace API.Middleware
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                context.Response.ContentType = "application/json";
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
                 var response = _env.IsDevelopment()
@@ -34,9 +33,7 @@ namespace API.Middleware
 
                 var options = new JsonSerializerOptions{PropertyNamingPolicy = JsonNamingPolicy.CamelCase};
 
-                var json = JsonSerializer.Serialize(response, options);
-
-                await context.Response.WriteAsJsonAsync(json);
+                await context.Response.WriteAsJsonAsync(response, options);
             }
         }
     }
