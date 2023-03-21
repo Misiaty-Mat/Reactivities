@@ -32,7 +32,7 @@ export default observer(function HomePage() {
                         </Button>
                     </>
                     
-                )};
+                )}
             </Container>
         </Segment>
     )
