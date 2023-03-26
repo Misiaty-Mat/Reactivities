@@ -21,7 +21,7 @@ export default class ProfileStore {
         return false;
     }
 
-    loadProfile =async (username: string) => {
+    loadProfile = async (username: string) => {
         this.loadingProfile = true;
         try {
             const profile = await agent.Profiles.get(username);
@@ -32,6 +32,23 @@ export default class ProfileStore {
         } catch (error) {
             console.log(error);
             runInAction(() => this.loadingProfile = false)
+        }
+    }
+
+    updateProfile = async (profile: Partial<Profile>) => {
+        this.loadingProfile = true;
+        try {
+            await agent.Profiles.updateProfile(profile);
+            runInAction(() => {
+                if (profile.displayName && profile.displayName !== store.userStore.user?.displayName) {
+                    store.userStore.setDisplayName(profile.displayName);
+                }
+                this.profile = {...this.profile, ...profile as Profile};
+                this.loadingProfile = false;
+            })
+        } catch (error) {
+            console.log(error);
+            runInAction(() => this.loadingProfile = false);
         }
     }
 
