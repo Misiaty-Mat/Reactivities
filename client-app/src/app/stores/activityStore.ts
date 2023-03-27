@@ -158,6 +158,10 @@ export default class ActivityStore {
         }
     }
 
+    clearSelectedActivity = () => {
+        this.selectedActivity = undefined;
+    }
+
     private getActivity = (id: string) => {
         return this.activityRegistry.get(id);
     }
